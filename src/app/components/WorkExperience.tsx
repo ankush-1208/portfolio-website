@@ -93,31 +93,29 @@ function WorkExperienceItem({ work }: WorkExperienceItemProps) {
   return (
     <Card className="py-1 print:py-0">
       <CardHeader className="print:space-y-1">
+        {/* Company name and period row */}
         <div className="flex items-center justify-between gap-x-2 text-base">
-          <h3 className="inline-flex items-center justify-center gap-x-1 font-semibold leading-none print:text-sm">
+          <h3 className="font-semibold leading-none print:text-sm">
             <CompanyLink company={company} link={link} />
-            <BadgeList
-              className="hidden gap-x-1 sm:inline-flex"
-              badges={badges}
-            />
           </h3>
           <WorkPeriod start={start} end={end} />
         </div>
 
-        <h4 className="font-mono text-sm font-semibold leading-none print:text-[12px]">
-          {title}
-        </h4>
+        {/* Title and badges in their own row */}
+        <div className="flex flex-col gap-2">
+          <h4 className="font-mono text-sm font-semibold leading-none print:text-[12px]">
+            {title}
+          </h4>
+          <BadgeList
+            className="flex flex-wrap gap-1"
+            badges={badges}
+          />
+        </div>
       </CardHeader>
 
       <CardContent>
-        <div className="mt-2 text-xs text-foreground/80 print:mt-1 print:text-[10px] text-pretty">
+        <div className="text-sm text-muted-foreground">
           {description}
-        </div>
-        <div className="mt-2">
-          <BadgeList
-            className="-mx-2 flex-wrap gap-1 sm:hidden"
-            badges={badges}
-          />
         </div>
       </CardContent>
     </Card>
@@ -136,47 +134,9 @@ export function WorkExperience({ work }: WorkExperienceProps) {
   return (
     <Section>
       <h2 className="text-xl font-bold">Experience</h2>
-      <div className="flex flex-col gap-8">
+      <div className="flex flex-col gap-8 print:gap-4">
         {work.map((work) => (
-          <div
-            key={work.company}
-            className="flex flex-col gap-4"
-          >
-            {/* Company and Duration Row */}
-            <div className="flex flex-col gap-2">
-              <div className="flex items-center justify-between">
-                <h3 className="font-medium leading-none">
-                  {work.company}
-                </h3>
-                <div className="text-sm tabular-nums text-muted-foreground">
-                  {work.start} - {work.end}
-                </div>
-              </div>
-
-              {/* Title and Badges Row */}
-              <div>
-                <div className="text-sm text-muted-foreground mb-2">
-                  {work.title}
-                </div>
-                <div className="flex flex-wrap gap-1">
-                  {work.badges.map((badge) => (
-                    <Badge
-                      key={badge}
-                      variant="secondary"
-                      className="align-middle text-xs"
-                    >
-                      {badge}
-                    </Badge>
-                  ))}
-                </div>
-              </div>
-            </div>
-
-            {/* Description */}
-            <div className="text-sm text-muted-foreground">
-              {work.description}
-            </div>
-          </div>
+          <WorkExperienceItem key={work.company} work={work} />
         ))}
       </div>
     </Section>
